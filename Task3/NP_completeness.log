@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.9.29)  5 APR 2019 12:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.9.29)  5 APR 2019 13:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -908,13 +908,13 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ! Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \hrule \@height \arrayrulewidth \futurelet...
-l.45 \hline
+l.46 \hline
            
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 43--45
+Underfull \hbox (badness 10000) in paragraph at lines 44--46
 
  []
 
@@ -924,26 +924,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 43--45
 ! Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \hrule \@height \arrayrulewidth \futurelet...
-l.77 \hline
+l.88 \hline
            
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 75--77
+Underfull \hbox (badness 10000) in paragraph at lines 86--88
 
  []
 
 ! Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \hrule \@height \arrayrulewidth \futurelet...
-l.93 \hline
-           
+l.104 \hline
+            
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 91--93
+Underfull \hbox (badness 10000) in paragraph at lines 102--104
 
  []
 
@@ -951,13 +951,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 91--93
 ! Misplaced \noalign.
 \hline ->\noalign 
                   {\ifnum 0=`}\fi \hrule \@height \arrayrulewidth \futurelet...
-l.127 \hline
+l.135 \hline
             
 I expect to see \noalign only after the \cr of
 an alignment. Proceed, and I'll ignore this case.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 125--127
+Underfull \hbox (badness 10000) in paragraph at lines 133--135
 
  []
 
@@ -969,7 +969,7 @@ Here is how much of TeX's memory you used:
  9030 multiletter control sequences out of 15000+600000
  12148 words of font info for 31 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,43p,1532b,181s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,14n,43p,1630b,187s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-supe
 r-t2a.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
@@ -984,7 +984,7 @@ m-super/sfbx0900.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb
 onts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1200.pfb>
 
-Output written on NP_completeness.pdf (4 pages, 214919 bytes).
+Output written on NP_completeness.pdf (4 pages, 222971 bytes).
 PDF statistics:
  74 PDF objects out of 1000 (max. 8388607)
  53 compressed objects within 1 object stream
