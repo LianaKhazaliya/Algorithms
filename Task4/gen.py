@@ -4,10 +4,10 @@ from operator import itemgetter
 
 MIN, MAX = -100, 100
 VARS = 5
-GEN_MAX=2
-MUT_MIN, MUT_MAX = -3, 3
-NGEN, CXPB, MUTPB, MUTGENPB = 10, 0.5, 0.8, 0.8
-DEFAULT_MAIN_ARGS = NGEN, CXPB, MUTPB
+GEN_MAX = 125
+MUT_MIN, MUT_MAX = -2, 2
+MUTPB, MUTGENPB = 0.05, 0.05
+POP_SIZE = 20
 
 
 def fitness(instance):
@@ -67,8 +67,8 @@ def crossover(pair):
 
 def newpop_selection(population, popsize):
     newpop_data = []
-    curpop = sorted(zip(map(fitness, population), population))[::-1]
-    newpop_data += curpop[:popsize/10]
+    curpop = sorted(zip(map(fitness, population), population))
+    newpop_data += curpop[:popsize/4]
     while len(newpop_data) != popsize:
         newpop_data.append(curpop[randint(0, 6*popsize-1)])
 
@@ -106,7 +106,12 @@ def main(ngen, popsize):
         popdata_f = fitness_calc(population)
         generation += 1
 
-    print population[min(enumerate(popdata_f), key=itemgetter(1))[0]]
+    print population[min(enumerate(popdata_f), key=itemgetter(1))[0]], fitness(population[min(enumerate(popdata_f), key=itemgetter(1))[0]])
 
 if __name__ == '__main__':
-    main(5,10)
+    main(VARS, POP_SIZE)
+
+#-10, 3, -6, -49, -6 popul = 25 -> 0
+#8 -14 -9 -187 -15 popul = 25 -> 382
+#10 1 -15 -92 -9 popul = 20 -> 142
+#4 13 -3 -68 -1 popul = 20 -> 90
