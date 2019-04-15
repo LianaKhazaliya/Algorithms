@@ -2,12 +2,13 @@ from random import randint, random
 from pprint import pprint
 from operator import itemgetter
 
+
 MIN, MAX = -100, 100
 VARS = 5
-GEN_MAX = 125
-MUT_MIN, MUT_MAX = -2, 2
-MUTPB, MUTGENPB = 0.05, 0.05
-POP_SIZE = 20
+GEN_MAX = 100
+MUT_MIN, MUT_MAX = -5, 5
+MUTPB, MUTGENPB = 0.1, 0.2          # for general probability of mutation 4,1%
+POP_SIZE = 25
 
 
 def fitness(instance):
@@ -65,14 +66,25 @@ def crossover(pair):
     return [parent1, parent2]
 
 
-def newpop_selection(population, popsize):
+def newpop_selection(population, popsize, generation):
     newpop_data = []
     curpop = sorted(zip(map(fitness, population), population))
-    newpop_data += curpop[:popsize/4]
-    while len(newpop_data) != popsize:
-        newpop_data.append(curpop[randint(0, 6*popsize-1)])
+    newpop_data += curpop[:popsize/5]
 
-    newpop = [data[1] for data in newpop_data]
+    if generation < GEN_MAX*0.9:
+
+        while len(newpop_data) != (popsize-3):
+            newpop_data.append(curpop[randint(0, 6*popsize-1)])
+
+        newpop = [data[1] for data in newpop_data]+[[randint(MIN, MAX) for j in range(5)] for i in range(3)]
+
+    else:
+
+        while len(newpop_data) != popsize:
+            newpop_data.append(curpop[randint(0, 6*popsize-1)])
+
+        newpop = [data[1] for data in newpop_data]
+
     return newpop
 
 
@@ -102,16 +114,23 @@ def main(ngen, popsize):
         for pair in parents_pairs:
             childs += crossover(pair)
         mut_childs = mutation(childs)
-        population = newpop_selection(mut_childs, popsize)
+        population = newpop_selection(mut_childs, popsize, generation)
         popdata_f = fitness_calc(population)
         generation += 1
 
-    print population[min(enumerate(popdata_f), key=itemgetter(1))[0]], fitness(population[min(enumerate(popdata_f), key=itemgetter(1))[0]])
+    return population[min(enumerate(popdata_f), key=itemgetter(1))[0]], fitness(population[min(enumerate(popdata_f), key=itemgetter(1))[0]])
 
 if __name__ == '__main__':
     main(VARS, POP_SIZE)
 
-#-10, 3, -6, -49, -6 popul = 25 -> 0
-#8 -14 -9 -187 -15 popul = 25 -> 382
-#10 1 -15 -92 -9 popul = 20 -> 142
-#4 13 -3 -68 -1 popul = 20 -> 90
+#-10, 3, -6, -49, -6 -> 0
+#-18 -3 0 -88 5 -> 0
+#8 7 -7 -98 8 -> 0
+#-4 -4 11 -42 -2 -> 0
+#-8 2 -8 -53 -7 -> 0
+#-6 -1 0 1 0 -> 0
+#10 -4 -5 -70 7 -> 0
+#-10 -2 -10 -90 -9 -> 0
+#-12 3 -11 -51 0 -> 0
+#-10 -7 0 -40 -3 -> 0
+#-4 1 17 -82 1 -> 0
