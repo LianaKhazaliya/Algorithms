@@ -6,9 +6,9 @@ from operator import itemgetter
 MIN, MAX = -100, 100
 VARS = 5
 GEN_MAX = 100
-MUT_MIN, MUT_MAX = -5, 5
-MUTPB, MUTGENPB = 0.1, 0.2          # for general probability of mutation 4,1%
-POP_SIZE = 25
+MUT_MIN, MUT_MAX = -3, 3
+MUTPB, MUTGENPB = 0.2, 0.2          # for general probability of mutation 4,1%
+POP_SIZE = 30
 
 
 def fitness(instance):
@@ -30,15 +30,15 @@ def fitness_calc(population):
     return map(fitness, population)
 
 
-def mutate(instance):
-    if random() <= MUTPB:
+def mutate(instance, mut_min, mut_max, mutpb, mutgenpb):
+    if random() <= mutpb:
         for i in range(len(instance)):
-            if random() <= MUTGENPB:
-                instance[i] += randint(MUT_MIN, MUT_MAX)
+            if random() <= mutgenpb:
+                instance[i] += randint(mut_min, mut_max)
     return instance
 
-def mutation(population):
-    return map(mutate, population)
+def mutation(population, mut_min, mut_max, mutpb, mutgenpb):
+    return [mutate(inst, mut_min, mut_max, mutpb, mutgenpb) for inst in population]
 
 
 def selection(population, popsize):    
@@ -66,17 +66,20 @@ def crossover(pair):
     return [parent1, parent2]
 
 
-def newpop_selection(population, popsize, generation):
+def newpop_selection(population, popsize, generation, gen_max, elite_inst, stop_rand, rand_inst):
     newpop_data = []
     curpop = sorted(zip(map(fitness, population), population))
-    newpop_data += curpop[:popsize/5]
+    newpop_data += curpop[:int(popsize*elite_inst)]
 
-    if generation < GEN_MAX*0.9:
+    if generation < gen_max*stop_rand:
 
-        while len(newpop_data) != (popsize-3):
+        while len(newpop_data) != (popsize*(1-rand_inst)):
             newpop_data.append(curpop[randint(0, 6*popsize-1)])
 
-        newpop = [data[1] for data in newpop_data]+[[randint(MIN, MAX) for j in range(5)] for i in range(3)]
+        newpop = [data[1] for data in newpop_data]
+
+        while len(newpop) != popsize:
+            newpop += [[randint(MIN, MAX) for j in range(5)]]
 
     else:
 
@@ -95,42 +98,31 @@ def create_population(popsize, ngen):
 def is_zero(popdata_f):
     return 0 not in popdata_f
 
-def is_nextgen(generation):
-    return generation < GEN_MAX
+def is_nextgen(generation, gen_max):
+    return generation < gen_max
 
-def is_continue(generation, popdata_f):
-    return is_zero(popdata_f) and is_nextgen(generation)
+def is_continue(generation, popdata_f, gen_max):
+    return is_zero(popdata_f) and is_nextgen(generation, gen_max)
 
 
-def main(ngen, popsize):
+def main(ngen, popsize, gen_max, mut_min, mut_max, mutpb, mutgenpb, elite_inst, stop_rand, rand_inst):
     population = create_population(popsize, ngen)
     popdata_f = fitness_calc(population)
     generation = 0
 
-    while is_continue(generation, popdata_f):
+    while is_continue(generation, popdata_f, gen_max):
 
         parents_pairs = selection(population, popsize)
         childs = []
         for pair in parents_pairs:
             childs += crossover(pair)
-        mut_childs = mutation(childs)
-        population = newpop_selection(mut_childs, popsize, generation)
+        mut_childs = mutation(childs, mut_min, mut_max, mutpb, mutgenpb)
+        population = newpop_selection(mut_childs, popsize, generation, gen_max, elite_inst, stop_rand, rand_inst)
         popdata_f = fitness_calc(population)
         generation += 1
 
     return population[min(enumerate(popdata_f), key=itemgetter(1))[0]], fitness(population[min(enumerate(popdata_f), key=itemgetter(1))[0]])
 
 if __name__ == '__main__':
-    main(VARS, POP_SIZE)
+    main(5, 30, 100, -3, 3, 0.2, 0.2, 7, 0.9, 4)
 
-#-10, 3, -6, -49, -6 -> 0
-#-18 -3 0 -88 5 -> 0
-#8 7 -7 -98 8 -> 0
-#-4 -4 11 -42 -2 -> 0
-#-8 2 -8 -53 -7 -> 0
-#-6 -1 0 1 0 -> 0
-#10 -4 -5 -70 7 -> 0
-#-10 -2 -10 -90 -9 -> 0
-#-12 3 -11 -51 0 -> 0
-#-10 -7 0 -40 -3 -> 0
-#-4 1 17 -82 1 -> 0
