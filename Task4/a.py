@@ -127,6 +127,6 @@ def main(ngen, popsize, gen_max, mut_min, mut_max, mutpb, mutgenpb, elite_inst, 
 if __name__ == '__main__':
     import time
     start_time = time.time()
-    main(5, 40, 2500, -5, 5, 0.1, 0.5, 0.3, 1, 0.4)
+    print(main(5, 50, 2000, -5, 5, 0.1, 0.5, 0.5, 1, 0.2))
     print("--- %s seconds ---" % (time.time() - start_time))
 #[2, -6, -13, -46, 2]
